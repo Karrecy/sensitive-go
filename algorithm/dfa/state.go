@@ -1,6 +1,6 @@
 package dfa
 
-import "github.com/yourusername/gosensitive/dict"
+import "github.com/karrecy/gosensitive/dict"
 
 // State represents a state in the DFA with type-safe transitions
 type State struct {

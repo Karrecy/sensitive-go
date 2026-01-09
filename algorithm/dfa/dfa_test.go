@@ -3,7 +3,7 @@ package dfa
 import (
 	"testing"
 
-	"github.com/yourusername/gosensitive/dict"
+	"github.com/karrecy/gosensitive/dict"
 )
 
 func TestDFAMatcher_Build(t *testing.T) {

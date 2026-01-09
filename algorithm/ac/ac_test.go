@@ -3,7 +3,7 @@ package ac
 import (
 	"testing"
 
-	"github.com/yourusername/gosensitive/dict"
+	"github.com/karrecy/gosensitive/dict"
 )
 
 func TestACMatcher_Build(t *testing.T) {

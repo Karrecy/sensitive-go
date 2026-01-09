@@ -1,6 +1,6 @@
 package ac
 
-import "github.com/yourusername/gosensitive/dict"
+import "github.com/karrecy/gosensitive/dict"
 
 // Node represents a node in the Aho-Corasick trie
 type Node struct {

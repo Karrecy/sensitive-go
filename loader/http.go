@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/yourusername/gosensitive/dict"
+	"github.com/karrecy/gosensitive/dict"
 )
 
 // HTTPLoader loads sensitive words from a remote HTTP(S) URL

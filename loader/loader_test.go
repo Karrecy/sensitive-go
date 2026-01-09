@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/yourusername/gosensitive/dict"
+	"github.com/karrecy/gosensitive/dict"
 )
 
 func TestMemoryLoader_Load(t *testing.T) {

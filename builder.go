@@ -1,13 +1,14 @@
 package gosensitive
 
 import (
-	"github.com/yourusername/gosensitive/algorithm"
-	"github.com/yourusername/gosensitive/algorithm/ac"
-	"github.com/yourusername/gosensitive/algorithm/dfa"
-	"github.com/yourusername/gosensitive/dict"
-	"github.com/yourusername/gosensitive/filter"
-	"github.com/yourusername/gosensitive/loader"
-	"github.com/yourusername/gosensitive/variant"
+	"github.com/karrecy/gosensitive/algorithm"
+	"github.com/karrecy/gosensitive/algorithm/ac"
+	"github.com/karrecy/gosensitive/algorithm/dfa"
+	"github.com/karrecy/gosensitive/builtin"
+	"github.com/karrecy/gosensitive/dict"
+	"github.com/karrecy/gosensitive/filter"
+	"github.com/karrecy/gosensitive/loader"
+	"github.com/karrecy/gosensitive/variant"
 )
 
 // Builder provides a fluent API for constructing a Detector
@@ -64,6 +65,12 @@ func (b *Builder) LoadHTTP(url string) *Builder {
 // LoadWords adds words directly to the builder
 func (b *Builder) LoadWords(words []dict.Word) *Builder {
 	b.words = append(b.words, words...)
+	return b
+}
+
+// LoadBuiltin loads the built-in default word dictionary
+func (b *Builder) LoadBuiltin() *Builder {
+	b.words = append(b.words, builtin.GetDefaultWords()...)
 	return b
 }
 

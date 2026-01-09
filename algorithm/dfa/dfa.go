@@ -4,8 +4,8 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/yourusername/gosensitive/algorithm"
-	"github.com/yourusername/gosensitive/dict"
+	"github.com/karrecy/gosensitive/algorithm"
+	"github.com/karrecy/gosensitive/dict"
 )
 
 // DFAMatcher implements a Deterministic Finite Automaton for pattern matching

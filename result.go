@@ -1,6 +1,6 @@
 package gosensitive
 
-import "github.com/yourusername/gosensitive/dict"
+import "github.com/karrecy/gosensitive/dict"
 
 // Result represents the detection result
 type Result struct {

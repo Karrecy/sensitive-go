@@ -2,26 +2,25 @@
 
 一个高性能、功能丰富的 Go 语言敏感词检测库。
 
-[![Go Version](https://img.shields.io/github/go-mod/go-version/yourusername/gosensitive)](https://golang.org/)
-[![License](https://img.shields.io/github/license/yourusername/gosensitive)](LICENSE)
-[![Go Report Card](https://goreportcard.com/badge/github.com/yourusername/gosensitive)](https://goreportcard.com/report/github.com/yourusername/gosensitive)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/karrecy/gosensitive)](https://golang.org/)
+[![License](https://img.shields.io/github/license/karrecy/gosensitive)](LICENSE)
 
 [English](README.md)
 
 ## 特性
 
-- 🚀 **高性能**: 支持 DFA 和 Aho-Corasick 算法，自动选择最优方案
-- 🎯 **灵活的 API**: 链式调用，开箱即用
-- 🔧 **变体检测**: 支持拼音、繁简体、符号干扰、形近字检测
-- 🔒 **线程安全**: 使用 COW 策略，支持高并发
-- 📦 **多种加载方式**: 支持文件、内存、HTTP 等多种词库来源
-- 🎨 **丰富的结果**: 提供详细的匹配信息，包括分类和级别
+- 🚀 **高性能**: DFA 和 Aho-Corasick 算法，自动选择最优方案
+- 🔧 **变体检测**: 拼音、繁简体、符号干扰、形近字检测
+- 🎯 **灵活匹配**: 大小写不敏感、白名单支持
+- 📦 **多种加载方式**: 黑名单和白名单均支持文件、HTTP、内存加载
+- 🔄 **自动重载**: 文件监控，自动更新词库
+- 🔒 **线程安全**: 支持高并发使用
 - ⚡ **零依赖**: 核心库无外部依赖
 
 ## 安装
 
 ```bash
-go get github.com/yourusername/gosensitive
+go get github.com/karrecy/gosensitive
 ```
 
 ## 快速开始
@@ -31,12 +30,17 @@ package main
 
 import (
     "fmt"
-    "github.com/yourusername/gosensitive"
+    "github.com/karrecy/gosensitive"
 )
 
 func main() {
-    // 创建检测器
+    // 使用内置词库（推荐快速开始）
     detector, _ := gosensitive.New().
+        LoadBuiltin().  // 加载内置默认词库
+        Build()
+
+    // 或从自定义来源加载
+    detector, _ = gosensitive.New().
         LoadMemory([]string{"敏感词", "测试"}).
         Build()
 
@@ -48,8 +52,7 @@ func main() {
     // 查找所有敏感词
     matches := detector.Find("敏感词和测试")
     for _, match := range matches {
-        fmt.Printf("发现: %s 位置 %d-%d\n", 
-            match.Word, match.Start, match.End)
+        fmt.Printf("发现: %s 位置 [%d:%d]\n", match.Word, match.Start, match.End)
     }
 
     // 替换敏感词
@@ -58,40 +61,129 @@ func main() {
 }
 ```
 
-## 高级用法
+## 核心功能
 
-### 自定义算法选择
+### 1. 算法选择
 
 ```go
-// 使用 DFA 算法
-detector := gosensitive.New().
-    UseAlgorithm(gosensitive.AlgorithmDFA).
-    LoadFile("words.txt").
-    Build()
-
-// 使用 AC 自动机
-detector := gosensitive.New().
-    UseAlgorithm(gosensitive.AlgorithmAC).
-    LoadFile("words.txt").
-    Build()
-
-// 自动选择（默认：小于5000词用DFA，否则用AC）
+// 自动选择（词库<5000用DFA，≥5000用AC）
 detector := gosensitive.New().
     UseAlgorithm(gosensitive.AlgorithmAuto).
     LoadFile("words.txt").
     Build()
-```
 
-### 白名单过滤
-
-```go
+// 显式指定
 detector := gosensitive.New().
-    LoadMemory([]string{"测试", "示例", "敏感"}).
-    AddWhitelist("测试", "示例"). // 这些词不会被匹配
+    UseAlgorithm(gosensitive.AlgorithmDFA).  // 或 AlgorithmAC
+    LoadFile("words.txt").
     Build()
 ```
 
-### 自定义选项
+### 2. 大小写不敏感匹配
+
+```go
+detector := gosensitive.New().
+    LoadMemory([]string{"测试", "Test"}).
+    SetCaseSensitive(false).  // 不区分大小写
+    Build()
+
+// 能匹配: "test", "TEST", "Test", "tEsT"
+fmt.Println(detector.Contains("这是一个 TEST"))  // true
+```
+
+### 3. 变体检测
+
+```go
+detector := gosensitive.New().
+    LoadMemory([]string{"测试"}).
+    EnableSymbol().       // 去除符号: "测*试" → "测试"
+    EnableTraditional().  // 繁简转换: "測試" → "测试"
+    EnableSimilarChar().  // 形近字: "测st" → "测试"
+    EnablePinyin().       // 拼音: "ceshi" → "测试"
+    Build()
+
+// 检测变体
+detector.Contains("测*试")    // true (去除符号)
+detector.Contains("測試")     // true (繁体)
+detector.Contains("ce shi")   // true (拼音)
+```
+
+### 4. 白名单支持
+
+```go
+// 从内存加载
+detector := gosensitive.New().
+    LoadMemory([]string{"测试", "示例", "敏感"}).
+    AddWhitelist("测试", "示例").  // 排除这些词
+    Build()
+
+// 从文件加载
+detector := gosensitive.New().
+    LoadFile("blacklist.txt").
+    LoadWhitelistFile("whitelist.txt").  // 从文件加载白名单
+    Build()
+
+// 多种来源
+detector := gosensitive.New().
+    LoadFile("words.txt").
+    LoadWhitelistFile("whitelist1.txt").
+    LoadWhitelistHTTP("https://example.com/whitelist.txt").
+    AddWhitelist("临时豁免").  // 添加更多
+    Build()
+```
+
+### 5. 多种加载方式
+
+```go
+// 内置词库（嵌入在二进制中）
+detector := gosensitive.New().
+    LoadBuiltin().  // 加载内置默认词库
+    Build()
+
+// 多种来源组合
+detector := gosensitive.New().
+    LoadBuiltin().                            // 内置词库
+    LoadFile("local_words.txt").              // 本地文件
+    LoadHTTP("https://cdn.com/words.txt").    // 远程HTTP
+    LoadMemory([]string{"额外1", "额外2"}).   // 内存
+    Build()
+```
+
+### 6. 文件监控和自动重载
+
+```go
+opts := gosensitive.DefaultOptions()
+opts.WatchFile = true
+opts.WatchInterval = time.Second * 30  // 每30秒检查一次
+
+detector, _ := gosensitive.New().
+    LoadFile("words.txt").
+    SetOptions(opts).
+    Build()
+
+// 文件变化会自动检测并重载
+defer detector.Close()  // 停止监控
+```
+
+### 7. 分类和等级过滤
+
+```go
+words := []dict.Word{
+    {Text: "政治词", Category: dict.CategoryPolitical, Level: dict.LevelHigh},
+    {Text: "广告词", Category: dict.CategoryAd, Level: dict.LevelLow},
+}
+
+opts := gosensitive.DefaultOptions()
+opts.Categories = []Category{CategoryPolitical}  // 只检测政治类
+opts.MinLevel = LevelHigh                        // 只检测高级别
+
+detector := gosensitive.New().
+    LoadWords(words).
+    SetOptions(opts).
+    Build()
+```
+
+### 8. 自定义选项
 
 ```go
 opts := gosensitive.DefaultOptions()
@@ -105,14 +197,22 @@ detector := gosensitive.New().
     Build()
 ```
 
-### 从多个来源加载
+## 白名单文件格式
 
-```go
-detector := gosensitive.New().
-    LoadFile("local_words.txt").
-    LoadHTTP("https://example.com/words.txt").
-    LoadMemory([]string{"额外1", "额外2"}).
-    Build()
+**纯文本格式 (whitelist.txt)**:
+```text
+测试
+示例
+# 注释会被忽略
+正常词汇
+```
+
+**JSON格式 (whitelist.json)**:
+```json
+[
+  {"text": "测试", "category": 0, "level": 0},
+  {"text": "示例", "category": 0, "level": 0}
+]
 ```
 
 ## 性能
@@ -121,26 +221,15 @@ detector := gosensitive.New().
 
 | 词库大小 | 算法 | 操作数/秒 | 延迟 |
 |---------|------|----------|------|
-| 1,000 词 | DFA | 500,000+ | ~2 µs |
-| 1,000 词 | AC | 600,000+ | ~1.6 µs |
-| 10,000 词 | DFA | 200,000+ | ~5 µs |
-| 10,000 词 | AC | 300,000+ | ~3.3 µs |
-| 100,000 词 | DFA | 80,000+ | ~12 µs |
-| 100,000 词 | AC | 150,000+ | ~6.6 µs |
-
-运行基准测试：
+| 1K 词   | DFA  | 500K+    | ~2 µs |
+| 1K 词   | AC   | 600K+    | ~1.6 µs |
+| 10K 词  | DFA  | 200K+    | ~5 µs |
+| 10K 词  | AC   | 300K+    | ~3.3 µs |
+| 100K 词 | AC   | 150K+    | ~6.6 µs |
 
 ```bash
 make bench
 ```
-
-## 示例
-
-查看 [examples](examples/) 目录获取更多使用示例：
-
-- [基础用法](examples/basic/main.go)
-- [高级功能](examples/advanced/main.go)
-- [Web 中间件](examples/middleware/)
 
 ## 测试
 
@@ -148,43 +237,32 @@ make bench
 # 运行所有测试
 make test
 
-# 运行测试并生成覆盖率报告
+# 带覆盖率
 make test-coverage
 
-# 运行基准测试
+# 基准测试
 make bench
 ```
 
 ## 文档
 
-完整文档请访问 [GoDoc](https://pkg.go.dev/github.com/yourusername/gosensitive)。
+完整 API 文档: [GoDoc](https://pkg.go.dev/github.com/karrecy/gosensitive)
 
 ## 贡献
 
-欢迎贡献！请阅读 [CONTRIBUTING.md](CONTRIBUTING.md) 了解详情。
+欢迎贡献！请查看 [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## 许可证
 
-本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
+MIT 许可证 - 详见 [LICENSE](LICENSE)
 
 ## 致谢
 
-- 受到其他语言敏感词检测库的启发
-- AC 算法实现基于经典的 Aho-Corasick 论文
-- 感谢所有贡献者
-
-## 路线图
-
-- [ ] 支持更多变体检测方法
-- [ ] 基于 Redis 的分布式词典
-- [ ] gRPC 服务封装
-- [ ] 性能优化
-- [ ] 更多中间件集成
+- 受到各种敏感词检测库的启发
+- AC 算法基于经典的 Aho-Corasick 论文
 
 ## 支持
 
-如果这个项目对你有帮助，请给它一个 ⭐️！
+⭐ 如果这个项目对你有帮助，请给它一个 Star！
 
-如有问题，请使用 [GitHub Issues](https://github.com/yourusername/gosensitive/issues)。
-
-
+问题和建议: [GitHub Issues](https://github.com/karrecy/gosensitive/issues)

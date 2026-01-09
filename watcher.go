@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/yourusername/gosensitive/loader"
+	"github.com/karrecy/gosensitive/loader"
 )
 
 // FileWatcher monitors file changes and triggers reload
@@ -117,4 +117,3 @@ func (w *FileWatcher) IsRunning() bool {
 	defer w.mu.Unlock()
 	return w.running
 }
-
