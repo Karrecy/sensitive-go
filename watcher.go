@@ -117,3 +117,4 @@ func (w *FileWatcher) IsRunning() bool {
 	defer w.mu.Unlock()
 	return w.running
 }
+

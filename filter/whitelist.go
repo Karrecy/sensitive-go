@@ -49,3 +49,4 @@ func (w *Whitelist) Clear() {
 	w.words = make(map[string]bool)
 }
 
+

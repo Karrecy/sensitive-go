@@ -57,3 +57,4 @@ func (c Category) Remove(flag Category) Category {
 	return c &^ flag
 }
 
+

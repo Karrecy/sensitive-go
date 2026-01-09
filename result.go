@@ -60,3 +60,4 @@ func (r *Result) FilterByLevel(level dict.Level) []Match {
 	return filtered
 }
 
+

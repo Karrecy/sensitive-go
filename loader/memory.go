@@ -31,3 +31,4 @@ func (l *MemoryLoader) Load() ([]dict.Word, error) {
 	return words, nil
 }
 
+

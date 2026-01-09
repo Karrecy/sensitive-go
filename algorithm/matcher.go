@@ -52,3 +52,4 @@ func (a AlgorithmType) String() string {
 	}
 }
 
+

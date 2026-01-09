@@ -86,3 +86,4 @@ func GetCharType(r rune) CharType {
 	return CharTypeUnknown
 }
 
+

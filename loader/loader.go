@@ -8,3 +8,4 @@ type Loader interface {
 	Load() ([]dict.Word, error)
 }
 
+

@@ -12,23 +12,25 @@ import (
 
 // Builder provides a fluent API for constructing a Detector
 type Builder struct {
-	algorithmType AlgorithmType
-	words         []dict.Word
-	loaders       []loader.Loader
-	options       *Options
-	whitelist     []string
-	fileLoaders   []*loader.FileLoader // Track file loaders for watching
+	algorithmType    AlgorithmType
+	words            []dict.Word
+	loaders          []loader.Loader
+	options          *Options
+	whitelist        []string
+	whitelistLoaders []loader.Loader      // Loaders for whitelist
+	fileLoaders      []*loader.FileLoader // Track file loaders for watching
 }
 
 // New creates a new Builder with default settings
 func New() *Builder {
 	return &Builder{
-		algorithmType: AlgorithmAuto,
-		words:         make([]dict.Word, 0),
-		loaders:       make([]loader.Loader, 0),
-		options:       DefaultOptions(),
-		whitelist:     make([]string, 0),
-		fileLoaders:   make([]*loader.FileLoader, 0),
+		algorithmType:    AlgorithmAuto,
+		words:            make([]dict.Word, 0),
+		loaders:          make([]loader.Loader, 0),
+		options:          DefaultOptions(),
+		whitelist:        make([]string, 0),
+		whitelistLoaders: make([]loader.Loader, 0),
+		fileLoaders:      make([]*loader.FileLoader, 0),
 	}
 }
 
@@ -92,6 +94,24 @@ func (b *Builder) EnableSimilarChar() *Builder {
 // AddWhitelist adds words to the whitelist
 func (b *Builder) AddWhitelist(words ...string) *Builder {
 	b.whitelist = append(b.whitelist, words...)
+	return b
+}
+
+// LoadWhitelistFile loads whitelist from a file
+func (b *Builder) LoadWhitelistFile(path string) *Builder {
+	b.whitelistLoaders = append(b.whitelistLoaders, loader.NewFileLoader(path))
+	return b
+}
+
+// LoadWhitelistMemory loads whitelist from memory
+func (b *Builder) LoadWhitelistMemory(words []string) *Builder {
+	b.whitelistLoaders = append(b.whitelistLoaders, loader.NewMemoryLoader(words))
+	return b
+}
+
+// LoadWhitelistHTTP loads whitelist from a remote HTTP(S) URL
+func (b *Builder) LoadWhitelistHTTP(url string) *Builder {
+	b.whitelistLoaders = append(b.whitelistLoaders, loader.NewHTTPLoader(url))
 	return b
 }
 
@@ -169,9 +189,26 @@ func (b *Builder) Build() (*Detector, error) {
 		detector.processors = append(detector.processors, variant.NewPinyinProcessor())
 	}
 
+	// Load whitelist from loaders
+	whitelistWords := make([]string, 0)
+	for _, l := range b.whitelistLoaders {
+		loadedWords, err := l.Load()
+		if err != nil {
+			// Skip failed loaders but continue
+			continue
+		}
+		// Extract text from Word objects
+		for _, w := range loadedWords {
+			whitelistWords = append(whitelistWords, w.Text)
+		}
+	}
+
+	// Combine with directly added whitelist
+	whitelistWords = append(whitelistWords, b.whitelist...)
+
 	// Add whitelist filter if provided
-	if len(b.whitelist) > 0 {
-		detector.filters = append(detector.filters, filter.NewWhitelist(b.whitelist))
+	if len(whitelistWords) > 0 {
+		detector.filters = append(detector.filters, filter.NewWhitelist(whitelistWords))
 	}
 
 	// Start file watchers if enabled

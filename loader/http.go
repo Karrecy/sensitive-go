@@ -96,3 +96,4 @@ func (l *HTTPLoader) loadJSON(reader io.Reader) ([]dict.Word, error) {
 	return words, nil
 }
 
+
