@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/karrecy/gosensitive/dict"
+	"github.com/Karrecy/sensitive-go/dict"
 )
 
 // FileLoader loads sensitive words from a file

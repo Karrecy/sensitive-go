@@ -1,6 +1,6 @@
 package algorithm
 
-import "github.com/karrecy/gosensitive/dict"
+import "github.com/Karrecy/sensitive-go/dict"
 
 // Matcher is the interface that all matching algorithms must implement
 type Matcher interface {

@@ -4,7 +4,7 @@ import (
 	_ "embed"
 	"strings"
 
-	"github.com/karrecy/gosensitive/dict"
+	"github.com/Karrecy/sensitive-go/dict"
 )
 
 //go:embed data/default.txt

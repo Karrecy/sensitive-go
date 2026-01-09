@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/karrecy/gosensitive/loader"
+	"github.com/Karrecy/sensitive-go/loader"
 )
 
 // FileWatcher monitors file changes and triggers reload

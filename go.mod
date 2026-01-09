@@ -1,3 +1,3 @@
-module github.com/karrecy/gosensitive
+module github.com/Karrecy/sensitive-go
 
-go 1.24.4
+go 1.21

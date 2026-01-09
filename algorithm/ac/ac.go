@@ -4,8 +4,8 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/karrecy/gosensitive/algorithm"
-	"github.com/karrecy/gosensitive/dict"
+	"github.com/Karrecy/sensitive-go/algorithm"
+	"github.com/Karrecy/sensitive-go/dict"
 )
 
 // ACMatcher implements the Aho-Corasick algorithm for multi-pattern matching

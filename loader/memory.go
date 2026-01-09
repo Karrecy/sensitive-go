@@ -1,6 +1,6 @@
 package loader
 
-import "github.com/karrecy/gosensitive/dict"
+import "github.com/Karrecy/sensitive-go/dict"
 
 // MemoryLoader loads sensitive words from an in-memory slice
 type MemoryLoader struct {

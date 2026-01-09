@@ -3,7 +3,7 @@ package ac
 import (
 	"testing"
 
-	"github.com/karrecy/gosensitive/dict"
+	"github.com/Karrecy/sensitive-go/dict"
 )
 
 func TestACMatcher_Build(t *testing.T) {
@@ -123,7 +123,7 @@ func TestACMatcher_Validate(t *testing.T) {
 }
 
 func BenchmarkACMatcher_Match(b *testing.B) {
-	matcher := NewACMatcher()
+	matcher := NewACMatcher(true) // case-sensitive
 	words := make([]dict.Word, 1000)
 	for i := 0; i < 1000; i++ {
 		words[i] = dict.Word{

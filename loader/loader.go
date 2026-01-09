@@ -1,6 +1,6 @@
 package loader
 
-import "github.com/karrecy/gosensitive/dict"
+import "github.com/Karrecy/sensitive-go/dict"
 
 // Loader is the interface for loading sensitive words from various sources
 type Loader interface {

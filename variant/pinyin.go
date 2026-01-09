@@ -66,13 +66,13 @@ func buildBasicPinyinMap() map[rune]string {
 		'经': "jing", '么': "me", '去': "qu", '法': "fa", '学': "xue",
 		'如': "ru", '她': "ta", '只': "zhi", '现': "xian", '当': "dang",
 		'样': "yang", '看': "kan", '文': "wen", '无': "wu", '开': "kai",
-		'手': "shou", '十': "shi", '用': "yong", '主': "zhu", '行': "xing",
-		'方': "fang", '又': "you", '高': "gao", '小': "xiao", '动': "dong",
-		'部': "bu", '机': "ji", '问': "wen", '分': "fen", '力': "li",
+		'手': "shou", '主': "zhu",
+		'又': "you", '高': "gao", '小': "xiao", '动': "dong",
+		'部': "bu", '机': "ji", '问': "wen", '分': "fen",
 
 		// Sensitive word related
 		'政': "zheng", '治': "zhi", '色': "se", '情': "qing", '暴': "bao",
-		'力': "li", '毒': "du", '品': "pin", '赌': "du", '博': "bo",
+		'毒': "du", '品': "pin", '赌': "du", '博': "bo",
 		'枪': "qiang", '支': "zhi", '弹': "dan", '药': "yao", '死': "si",
 		'杀': "sha", '血': "xue", '腥': "xing", '恐': "kong", '怖': "bu",
 	}

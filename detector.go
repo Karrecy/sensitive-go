@@ -3,12 +3,12 @@ package gosensitive
 import (
 	"sync"
 
-	"github.com/karrecy/gosensitive/algorithm"
-	"github.com/karrecy/gosensitive/algorithm/ac"
-	"github.com/karrecy/gosensitive/algorithm/dfa"
-	"github.com/karrecy/gosensitive/dict"
-	"github.com/karrecy/gosensitive/filter"
-	"github.com/karrecy/gosensitive/variant"
+	"github.com/Karrecy/sensitive-go/algorithm"
+	"github.com/Karrecy/sensitive-go/algorithm/ac"
+	"github.com/Karrecy/sensitive-go/algorithm/dfa"
+	"github.com/Karrecy/sensitive-go/dict"
+	"github.com/Karrecy/sensitive-go/filter"
+	"github.com/Karrecy/sensitive-go/variant"
 )
 
 // Detector is the main sensitive word detector

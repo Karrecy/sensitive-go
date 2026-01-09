@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/karrecy/gosensitive/dict"
+	"github.com/Karrecy/sensitive-go/dict"
 )
 
 func TestMemoryLoader_Load(t *testing.T) {

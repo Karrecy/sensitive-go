@@ -3,7 +3,7 @@ package dfa
 import (
 	"testing"
 
-	"github.com/karrecy/gosensitive/dict"
+	"github.com/Karrecy/sensitive-go/dict"
 )
 
 func TestDFAMatcher_Build(t *testing.T) {
@@ -123,7 +123,7 @@ func TestDFAMatcher_Validate(t *testing.T) {
 }
 
 func BenchmarkDFAMatcher_Match(b *testing.B) {
-	matcher := NewDFAMatcher()
+	matcher := NewDFAMatcher(true) // case-sensitive
 	words := make([]dict.Word, 1000)
 	for i := 0; i < 1000; i++ {
 		words[i] = dict.Word{
