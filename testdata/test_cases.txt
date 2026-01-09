@@ -1,0 +1,11 @@
+# Test Cases for Sensitive Word Detection
+# Format: input text | expected matches count | description
+
+这是一个正常的文本 | 0 | Normal text
+这是一个敏感词 | 1 | Single sensitive word
+傻逼和白痴都是不好的词 | 2 | Multiple sensitive words
+测试test测试 | 2 | Mixed language
+傻@逼 | 1 | With symbol interference
+測試 | 1 | Traditional Chinese
+sha bi | 1 | Pinyin variant
+
