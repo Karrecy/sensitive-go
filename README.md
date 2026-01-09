@@ -15,7 +15,7 @@ A high-performance, feature-rich sensitive word detection library for Go.
 - 📦 **Multiple Loaders**: File, HTTP, and memory sources for both blacklist and whitelist
 - 🔄 **Auto Reload**: File monitoring with automatic dictionary updates
 - 🔒 **Thread-Safe**: Safe for concurrent use
-- �?**Zero Dependencies**: Core library with no external dependencies
+- 📦 **Zero Dependencies**: Core library with no external dependencies
 
 ## Installation
 
@@ -66,7 +66,7 @@ func main() {
 ### 1. Algorithm Selection
 
 ```go
-// Auto-select (DFA for <5000 words, AC for �?000)
+// Auto-select (DFA for <5000 words, AC for ≥5000)
 detector := gosensitive.New().
     UseAlgorithm(gosensitive.AlgorithmAuto).
     LoadFile("words.txt").
@@ -96,14 +96,14 @@ fmt.Println(detector.Contains("this is a TEST"))  // true
 ```go
 detector := gosensitive.New().
     LoadMemory([]string{"测试"}).
-    EnableSymbol().       // Remove symbols: "�?�? �?"测试"
-    EnableTraditional().  // Simplified/Traditional: "測試" �?"测试"
-    EnableSimilarChar().  // Similar chars: "测st" �?"测试"
-    EnablePinyin().       // Pinyin: "ceshi" �?"测试"
+    EnableSymbol().       // Remove symbols: "测@试" → "测试"
+    EnableTraditional().  // Simplified/Traditional: "測試" → "测试"
+    EnableSimilarChar().  // Similar chars: "测st" → "测试"
+    EnablePinyin().       // Pinyin: "ceshi" → "测试"
     Build()
 
 // Detects variants
-detector.Contains("�?�?)    // true (symbol removed)
+detector.Contains("测@试")    // true (symbol removed)
 detector.Contains("測試")     // true (traditional)
 detector.Contains("ce shi")   // true (pinyin)
 ```
@@ -187,7 +187,7 @@ detector := gosensitive.New().
 
 ```go
 opts := gosensitive.DefaultOptions()
-opts.ReplaceChar = '�?
+opts.ReplaceChar = '█'
 opts.MaxMatchCount = 10
 opts.CaseSensitive = false
 
@@ -263,6 +263,6 @@ MIT License - see [LICENSE](LICENSE)
 
 ## Support
 
-�?Star this project if you find it helpful!
+⭐ Star this project if you find it helpful!
 
 Issues and questions: [GitHub Issues](https://github.com/Karrecy/sensitive-go/issues)
