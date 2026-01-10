@@ -3,7 +3,6 @@
 一个高性能、功能丰富的 Go 语言敏感词检测库。
 
 [![Go Version](https://img.shields.io/github/go-mod/go-version/Karrecy/sensitive-go?style=flat-square)](https://golang.org)
-[![Go Report Card](https://goreportcard.com/badge/github.com/Karrecy/sensitive-go)](https://goreportcard.com/report/github.com/Karrecy/sensitive-go)
 [![License](https://img.shields.io/github/license/Karrecy/sensitive-go?style=flat-square)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/Karrecy/sensitive-go?style=flat-square)](https://github.com/Karrecy/sensitive-go/stargazers)
 [![Last Commit](https://img.shields.io/github/last-commit/Karrecy/sensitive-go?style=flat-square)](https://github.com/Karrecy/sensitive-go/commits/main)
