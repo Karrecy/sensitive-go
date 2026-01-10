@@ -1,9 +1,13 @@
-# GoSensitive
+# Sensitive-Go
 
 一个高性能、功能丰富的 Go 语言敏感词检测库。
 
-[![Go Version](https://img.shields.io/github/go-mod/go-version/karrecy/gosensitive)](https://golang.org/)
-[![License](https://img.shields.io/github/license/karrecy/gosensitive)](LICENSE)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/Karrecy/sensitive-go?style=flat-square)](https://golang.org)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Karrecy/sensitive-go)](https://goreportcard.com/report/github.com/Karrecy/sensitive-go)
+[![License](https://img.shields.io/github/license/Karrecy/sensitive-go?style=flat-square)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/Karrecy/sensitive-go?style=flat-square)](https://github.com/Karrecy/sensitive-go/stargazers)
+[![Last Commit](https://img.shields.io/github/last-commit/Karrecy/sensitive-go?style=flat-square)](https://github.com/Karrecy/sensitive-go/commits/main)
+
 
 [English](README.md)
 
@@ -214,55 +218,3 @@ detector := gosensitive.New().
   {"text": "示例", "category": 0, "level": 0}
 ]
 ```
-
-## 性能
-
-在 AMD Ryzen 7 5800X 上的基准测试：
-
-| 词库大小 | 算法 | 操作数/秒 | 延迟 |
-|---------|------|----------|------|
-| 1K 词   | DFA  | 500K+    | ~2 µs |
-| 1K 词   | AC   | 600K+    | ~1.6 µs |
-| 10K 词  | DFA  | 200K+    | ~5 µs |
-| 10K 词  | AC   | 300K+    | ~3.3 µs |
-| 100K 词 | AC   | 150K+    | ~6.6 µs |
-
-```bash
-make bench
-```
-
-## 测试
-
-```bash
-# 运行所有测试
-make test
-
-# 带覆盖率
-make test-coverage
-
-# 基准测试
-make bench
-```
-
-## 文档
-
-完整 API 文档: [GoDoc](https://pkg.go.dev/github.com/Karrecy/sensitive-go)
-
-## 贡献
-
-欢迎贡献！请查看 [CONTRIBUTING.md](CONTRIBUTING.md)
-
-## 许可证
-
-MIT 许可证 - 详见 [LICENSE](LICENSE)
-
-## 致谢
-
-- 受到各种敏感词检测库的启发
-- AC 算法基于经典的 Aho-Corasick 论文
-
-## 支持
-
-⭐ 如果这个项目对你有帮助，请给它一个 Star！
-
-问题和建议: [GitHub Issues](https://github.com/Karrecy/sensitive-go/issues)

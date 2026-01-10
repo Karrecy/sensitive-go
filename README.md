@@ -1,9 +1,13 @@
-# GoSensitive
+# Sensitive-Go
 
 A high-performance, feature-rich sensitive word detection library for Go.
 
-[![Go Version](https://img.shields.io/github/go-mod/go-version/karrecy/gosensitive)](https://golang.org/)
-[![License](https://img.shields.io/github/license/karrecy/gosensitive)](LICENSE)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/Karrecy/sensitive-go?style=flat-square)](https://golang.org)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Karrecy/sensitive-go)](https://goreportcard.com/report/github.com/Karrecy/sensitive-go)
+[![License](https://img.shields.io/github/license/Karrecy/sensitive-go?style=flat-square)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/Karrecy/sensitive-go?style=flat-square)](https://github.com/Karrecy/sensitive-go/stargazers)
+[![Last Commit](https://img.shields.io/github/last-commit/Karrecy/sensitive-go?style=flat-square)](https://github.com/Karrecy/sensitive-go/commits/main)
+
 
 [中文文档](README_zh.md)
 
@@ -214,55 +218,3 @@ normal_word
   {"text": "example", "category": 0, "level": 0}
 ]
 ```
-
-## Performance
-
-Benchmarks on AMD Ryzen 7 5800X:
-
-| Dictionary | Algorithm | Ops/sec | Latency |
-|-----------|-----------|---------|---------|
-| 1K words  | DFA       | 500K+   | ~2 µs   |
-| 1K words  | AC        | 600K+   | ~1.6 µs |
-| 10K words | DFA       | 200K+   | ~5 µs   |
-| 10K words | AC        | 300K+   | ~3.3 µs |
-| 100K words| AC        | 150K+   | ~6.6 µs |
-
-```bash
-make bench
-```
-
-## Testing
-
-```bash
-# Run all tests
-make test
-
-# With coverage
-make test-coverage
-
-# Benchmarks
-make bench
-```
-
-## Documentation
-
-Full API documentation: [GoDoc](https://pkg.go.dev/github.com/Karrecy/sensitive-go)
-
-## Contributing
-
-Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md)
-
-## License
-
-MIT License - see [LICENSE](LICENSE)
-
-## Acknowledgments
-
-- Inspired by various sensitive word detection libraries
-- AC algorithm based on the classic Aho-Corasick paper
-
-## Support
-
-⭐ Star this project if you find it helpful!
-
-Issues and questions: [GitHub Issues](https://github.com/Karrecy/sensitive-go/issues)
